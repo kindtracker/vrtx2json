@@ -1,5 +1,15 @@
 import { decompress } from "https://esm.sh/fzstd";
 
+const materials = {
+  0x00: "Smooth",
+  0x01: "Plastic",
+  0x02: "Wood",
+  0x03: "Metal",
+  0x04: "Grass",
+  0x05: "Ice",
+  0x06: "Paint",
+}
+
 function read_string(view, offset, length) {
   const bytes = new Uint8Array(view.buffer, view.byteOffset + offset, length);
   return new TextDecoder().decode(bytes).replace(/\0+$/, "");
@@ -67,7 +77,7 @@ export async function vrtx2json(buffer) {
     part.color.a = view.getFloat32(ptr, true);
     ptr += 4;
 
-    part.material = view.getUint8(ptr);
+    part.material = materials[view.getUint8(ptr)];
     ptr += 1;
 
     json["parts"].push(part);
