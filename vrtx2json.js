@@ -21,10 +21,15 @@ export async function vrtx2json(buffer) {
   json["project_id"] = read_string(view, ptr, project_id_len);
   ptr += project_id_len;
   
-  json["parts"] = {};
+  json["parts"] = [];
   const part_count = view.getUint32(ptr, true);
-  for (let i = 0; i < part_count; i++) {
-    
+  ptr += 8;
+  for (let i = 0; i < 1; i++) {
+    const part = {};
+    const name_len = view.getUint32(ptr, true);
+    ptr += 8;
+    part.name = read_string(view, ptr, name_len);
+    json["parts"].push(part);
   }
 
   return json;
