@@ -29,6 +29,34 @@ export async function vrtx2json(buffer) {
     const name_len = view.getUint32(ptr, true);
     ptr += 8;
     part.name = read_string(view, ptr, name_len);
+    
+    part.position = {};
+    ptr += name_len;
+    part.position.x = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.position.y = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.position.z = view.getFloat32(ptr, true);
+    ptr += 4;
+    
+    part.rotation = {};
+    part.rotation.x = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.rotation.y = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.rotation.z = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.rotation.w = view.getFloat32(ptr, true);
+    ptr += 4;
+
+    part.scale = {};
+    part.scale.x = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.scale.y = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.scale.z = view.getFloat32(ptr, true);
+    ptr += 4;
+
     json["parts"].push(part);
   }
 
