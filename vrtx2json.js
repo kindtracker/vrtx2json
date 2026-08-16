@@ -57,6 +57,19 @@ export async function vrtx2json(buffer) {
     part.scale.z = view.getFloat32(ptr, true);
     ptr += 4;
 
+    part.color = {};
+    part.color.r = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.color.g = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.color.b = view.getFloat32(ptr, true);
+    ptr += 4;
+    part.color.a = view.getFloat32(ptr, true);
+    ptr += 4;
+
+    part.material = view.getUint8(ptr);
+    ptr += 1;
+
     json["parts"].push(part);
   }
 
