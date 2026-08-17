@@ -90,6 +90,12 @@ export async function vrtx2json(buffer) {
     ptr += 1;
     part.spawn_location = view.getUint8(ptr) != 0; 
     ptr += 1;
+    part.baseplate = view.getUint8(ptr) != 0; 
+    ptr += 1;
+    part.custom_appearance = view.getUint8(ptr) != 0; 
+    ptr += 1;
+    part.truss = view.getUint8(ptr) != 0; 
+    ptr += 1;
 
     json["parts"].push(part);
   }
