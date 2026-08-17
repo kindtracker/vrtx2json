@@ -10,6 +10,16 @@ const materials = {
   0x06: "Paint",
 }
 
+const faces = {
+  0x01: "Bottom",
+  0x02: "Top"
+}
+
+const kinds = {
+  0x00: "Studs",
+  0x03: "Inlets"
+}
+
 function read_string(view, offset, length) {
   const bytes = new Uint8Array(view.buffer, view.byteOffset + offset, length);
   return new TextDecoder().decode(bytes).replace(/\0+$/, "");
@@ -96,6 +106,19 @@ export async function vrtx2json(buffer) {
     ptr += 1;
     part.truss = view.getUint8(ptr) != 0; 
     ptr += 1;
+
+    const texture_count = view.getUint32(ptr, true);
+    ptr += 8;
+
+    part.textures = [];
+    for (let i = 0; i < texture_count; i++) {
+      const texture = {};
+      texture.face = faces[view.getUint32(ptr, true)];
+      ptr += 8;
+      texture.kind = kinds[view.getUint32(ptr, true)];
+      ptr += 4;
+      part.textures.push(texture);
+    }
 
     json["parts"].push(part);
   }
