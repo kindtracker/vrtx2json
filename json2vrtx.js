@@ -1,6 +1,6 @@
 import { init, compress } from "https://esm.sh/@bokuweb/zstd-wasm";
 
-await init("/zstd.wasm");
+await init("zstd.wasm");
 
 const materials = {
   0x00: "Smooth",
