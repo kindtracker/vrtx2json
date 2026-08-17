@@ -77,7 +77,18 @@ export async function vrtx2json(buffer) {
     part.color.a = view.getFloat32(ptr, true);
     ptr += 4;
 
-    part.material = materials[view.getUint8(ptr)];
+    part.material = materials[view.getUint32(ptr)];
+    ptr += 1;
+    part.group = view.getUint32(ptr, true);
+    ptr += 4;
+
+    part.cast_shadow = view.getUint8(ptr) != 0; 
+    ptr += 1; 
+    part.anchored = view.getUint8(ptr) != 0; 
+    ptr += 1; 
+    part.can_collide = view.getUint8(ptr) != 0; 
+    ptr += 1;
+    part.spawn_location = view.getUint8(ptr) != 0; 
     ptr += 1;
 
     json["parts"].push(part);
