@@ -1,5 +1,5 @@
-import { vrtx2json } from "vrtx2json.js";
-import { json2vrtx } from "json2vrtx.js";
+import { vrtx2json } from "./vrtx2json.js";
+import { json2vrtx } from "./json2vrtx.js";
 
 const button = document.getElementById("open");
 const json_button = document.getElementById("open_json");
