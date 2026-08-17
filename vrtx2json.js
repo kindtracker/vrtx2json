@@ -139,11 +139,9 @@ export async function vrtx2json(buffer) {
 
   let ptr = 0;
 
-  // Inner schema version
   json.project_version = view.getUint8(ptr);
   ptr += 1;
 
-  // project_id: String (u64 length)
   const project_id_len = view.getUint32(ptr, true);
   ptr += 8;
 
@@ -155,7 +153,6 @@ export async function vrtx2json(buffer) {
 
   ptr += project_id_len;
 
-  // parts: Vec<Part> (u64 length)
   json.parts = [];
 
   const part_count = view.getUint32(ptr, true);
@@ -164,7 +161,6 @@ export async function vrtx2json(buffer) {
   for (let i = 0; i < part_count; i++) {
     const part = {};
 
-    // name
     const name_len = view.getUint32(ptr, true);
     ptr += 8;
 
@@ -176,7 +172,6 @@ export async function vrtx2json(buffer) {
 
     ptr += name_len;
 
-    // position
     part.position = {
       x: view.getFloat32(ptr, true),
       y: view.getFloat32(ptr + 4, true),
@@ -184,7 +179,6 @@ export async function vrtx2json(buffer) {
     };
     ptr += 12;
 
-    // rotation
     part.rotation = {
       x: view.getFloat32(ptr, true),
       y: view.getFloat32(ptr + 4, true),
@@ -193,7 +187,6 @@ export async function vrtx2json(buffer) {
     };
     ptr += 16;
 
-    // scale
     part.scale = {
       x: view.getFloat32(ptr, true),
       y: view.getFloat32(ptr + 4, true),
@@ -201,7 +194,6 @@ export async function vrtx2json(buffer) {
     };
     ptr += 12;
 
-    // color
     part.color = {
       r: view.getFloat32(ptr, true),
       g: view.getFloat32(ptr + 4, true),
@@ -210,13 +202,11 @@ export async function vrtx2json(buffer) {
     };
     ptr += 16;
 
-    // material: u32 enum
     const material_index = view.getUint32(ptr, true);
     ptr += 4;
 
     part.material = materials[material_index];
 
-    // group: Option<u64>
     const has_group = view.getUint8(ptr);
     ptr += 1;
 
@@ -227,7 +217,6 @@ export async function vrtx2json(buffer) {
       part.group = null;
     }
 
-    // booleans
     part.cast_shadow = view.getUint8(ptr) !== 0;
     ptr += 1;
 
@@ -249,7 +238,6 @@ export async function vrtx2json(buffer) {
     part.truss = view.getUint8(ptr) !== 0;
     ptr += 1;
 
-    // textures: Vec<Texture>
     const texture_count = view.getUint32(ptr, true);
     ptr += 8;
 
@@ -270,7 +258,6 @@ export async function vrtx2json(buffer) {
       part.textures.push(texture);
     }
 
-    // point_light: Option<PointLight>
     const has_point_light = view.getUint8(ptr);
     ptr += 1;
 
@@ -282,7 +269,6 @@ export async function vrtx2json(buffer) {
       part.point_light = null;
     }
 
-    // spot_light: Option<SpotLight>
     const has_spot_light = view.getUint8(ptr);
     ptr += 1;
 
@@ -297,7 +283,6 @@ export async function vrtx2json(buffer) {
     json.parts.push(part);
   }
 
-  // lighting
   const ambient = read_color(view, ptr);
   ptr = ambient.ptr;
 
@@ -326,7 +311,6 @@ export async function vrtx2json(buffer) {
     sun_rotation: sun_rotation.value,
   };
 
-  // groups
   json.groups = [];
 
   const group_count = view.getUint32(ptr, true);
@@ -346,7 +330,6 @@ export async function vrtx2json(buffer) {
 
     ptr += name_len;
 
-    // parent_group: Option<u64>
     const has_parent = view.getUint8(ptr);
     ptr += 1;
 
